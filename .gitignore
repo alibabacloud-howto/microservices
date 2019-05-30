@@ -1,0 +1,14 @@
+*.pem
+*.txt
+*.env
+*.properties
+.idea/
+.terraform/
+terraform.tfvars
+terraform.tfstate*
+variables.json
+node_modules/
+**/app/target/*
+!**/app/target/*.jar
+front/tool/oss/.ossutilconfig
+front/tool/oss/ossutil_output/
