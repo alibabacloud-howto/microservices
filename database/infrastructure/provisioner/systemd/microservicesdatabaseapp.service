@@ -1,0 +1,14 @@
+[Unit]
+Description=microservices database API application service unit
+After=syslog.target network.target
+
+[Service]
+ExecStart=/usr/bin/java -Xmx1024m -jar /usr/local/libexec/database-app-1.0-SNAPSHOT.jar
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=microservicesdatabaseapp
+Restart=always
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
