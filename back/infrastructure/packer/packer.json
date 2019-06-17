@@ -1,0 +1,46 @@
+{
+  "builders": [{
+      "type":"alicloud-ecs",
+      "access_key":"{{user `access_key`}}",
+      "secret_key":"{{user `secret_key`}}",
+      "region":"{{user `region`}}",
+      "image_name":"{{user `image_name`}}",
+      "source_image":"centos_7_06_64_20G_alibase_20190218.vhd",
+      "instance_type":"ecs.n1.medium",
+      "ssh_username":"root",
+      "io_optimized":"true",
+      "image_force_delete":"true"
+  }],
+  "provisioners": [
+      {
+          "type": "file",
+          "source": "backend-app-1.0-SNAPSHOT.jar",
+          "destination": "/usr/local/libexec/backend-app-1.0-SNAPSHOT.jar"
+      },
+      {
+          "type": "file",
+          "source": "microservicesbackendapp.service",
+          "destination": "/etc/systemd/system/microservicesbackendapp.service"
+      },
+      {
+          "type": "shell",
+          "inline": [
+              "echo 'LC_ALL=en_US.utf-8' >> /etc/environment",
+              "echo 'LANG=en_US.utf-8' >> /etc/environment",
+              "echo 'LANGUAGE=en_US.UTF-8' >> /etc/environment",
+              "export LC_ALL=en_US.utf-8",
+              "export LANG=en_US.utf-8",
+              "export LANGUAGE=en_US.UTF-8",
+
+              "yum update -y",
+              "yum install -y java-1.8.0-openjdk maven",
+
+              "systemctl enable microservicesbackendapp",
+              "systemctl start microservicesbackendapp",
+
+              "echo 'provision done.'"
+          ],
+          "pause_before": "30s"
+      }
+  ]
+}

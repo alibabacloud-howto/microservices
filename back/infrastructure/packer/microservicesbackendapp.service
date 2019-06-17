@@ -1,0 +1,14 @@
+[Unit]
+Description=microservices back-end web application service unit
+After=syslog.target network.target
+
+[Service]
+ExecStart=/usr/bin/java -Xmx1024m -jar /usr/local/libexec/backend-app-1.0-SNAPSHOT.jar
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=microservicesbackendapp
+Restart=always
+Type=simple
+
+[Install]
+WantedBy=multi-user.target
