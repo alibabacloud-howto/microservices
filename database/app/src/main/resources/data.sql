@@ -1,4 +1,4 @@
-INSERT IGNORE INTO USER_PURCHASE (id, user_id, item, place) VALUES
+INSERT IGNORE INTO user_purchase (id, user_id, item, place) VALUES
     (1, 999999, 'book', 'Shanghai'),
     (2, 1, 'book', 'Shanghai'),
     (3, 1, 'food', 'Hangzhou'),

@@ -2100,7 +2100,7 @@ let's create a simple database API application. We will deploy the application o
         * User purchase in the database.
         */
         @Entity
-        @Table(name = "USER_PURCHASE")
+        @Table(name = "user_purchase")
         public class UserPurchase {
 
             @Id
@@ -2226,7 +2226,7 @@ let's create a simple database API application. We will deploy the application o
 
         `data.sql`
         ```sh
-        INSERT IGNORE INTO USER_PURCHASE (id, user_id, item, place) VALUES
+        INSERT IGNORE INTO user_purchase (id, user_id, item, place) VALUES
             (1, 999999, 'book', 'Shanghai'),
             (2, 1, 'book', 'Shanghai'),
             (3, 1, 'food', 'Hangzhou'),

@@ -7,7 +7,7 @@ import javax.persistence.*;
  * User purchase in the database.
  */
 @Entity
-@Table(name = "USER_PURCHASE")
+@Table(name = "user_purchase")
 public class UserPurchase {
 
     @Id
