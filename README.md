@@ -27,7 +27,7 @@ The goal of this tutorial is to explain how to create a microservice on Alibaba 
 
 This tutorial will introduce a classical architecture of microservices which uses Alibaba Cloud core services such as VPC, ECS, RDS, SLB, OSS, or CDN. After complete this turorial, you know how to use these cloud services. Through this tutorial, we will create a small microservice step by step. It contains samples for front-end web application, back-end web application, database API application, and infrastructure code so that you can know how to create, deploy or update applications on the Alibaba Cloud services too.
 
-The following figure shows the architecture of the microservice which we will create in this tutorial.
+The following figure shows the architecture of the microservice created in this tutorial.
 ![images/sample_microservice_architecture_step4.png](images/sample_microservice_architecture_step4.png)
 
 
@@ -54,7 +54,14 @@ Before starting this tutorial, you need to prepare the following things.
 
 We will use Terraform in this tutorial many times. It is a powerful tool of Infrastructure as code made by HashCorp. It can automate constructing cloud infrastructure. Please install it if you don't have.
 
+**NOTE**: No available provider "alicloud" plugins are compatible with the Terraform version 0.12.x yet. Please install **0.11.x** version. (Jun. 27, 2019)
+
 It enables us to create cloud resources effectively. Also, it enables us to manage the cloud infrastructure with files. Terraform configuration files contain the information of cloud resources and the architecture, and also Terraform saves the state of cloud resources in files after it applys changes.
+
+This tutorial was checked with the following enviroinment:
+
+* macOS High Sierra: 10.13.4
+* Terraform: 0.11.11 (with plugin for provider "alicloud" (1.46.0))
 
 
 ## Step 1-1 - Create a front-end application
@@ -82,9 +89,8 @@ node -v
 npm -v
 ```
 
-This tutorial is checked with the following enviroinment:
+This tutorial was checked with the following enviroinment:
 
-* macOS High Sierra: 10.13.4
 * node: v10.15.3
 * npm: 6.4.1
 * vue: 3.5.5 (will be installed in the later part by vue-cli)
@@ -154,7 +160,7 @@ This tutorial is checked with the following enviroinment:
       To create a production build, run npm run build.
     ```
 
-    access to your website at http://localhost:8080 on your browser.
+    access your website at http://localhost:8080 on your browser.
 
     After you confirm it works, stop the local server by ctrl+c in a termial.
 
@@ -163,7 +169,7 @@ Now, you completed to prepare a simple web application! We will deploy it on clo
 
 ## Step 1-2 - Deploy a front-end application
 
-Let's deploy the front-end web application which we created in the previous step. We will deploy it on [Object Storage Service (OSS)](https://www.alibabacloud.com/help/doc-detail/31817.htm), which is cloud storage service in Alibaba Cloud. Usually, OSS is used to store static files such as images, videos, log files, or backup files. However, we use OSS as host by using the feature [static website hosting](https://www.alibabacloud.com/help/doc-detail/31872.htm) this time. It enable us to host a website easily, and the big benefit of static website hosting is that you don't have to care any server operation or management to host the website. We can access our website hosted on cloud after finishing this step.
+Let's deploy the front-end web application which we created in the previous step. We will deploy it on [Object Storage Service (OSS)](https://www.alibabacloud.com/help/doc-detail/31817.htm), which is cloud storage service in Alibaba Cloud. Usually, OSS is used to store static files such as images, videos, log files, or backup files. However, we use OSS as host by using the feature [static website hosting](https://www.alibabacloud.com/help/doc-detail/31872.htm) this time. It enable us to host a website easily, and the big benefit of static website hosting is that you don't have to care any server operation or management to host the website. You can access your website hosted on cloud after finishing this step.
 
 ### Create a OSS bucket
 
@@ -208,7 +214,7 @@ Let's deploy the front-end web application which we created in the previous step
 
 3. Create a Terraform script (OSS)
 
-    Third, create a Terraform script.
+    Third, create a Terraform script,
 
     ```sh
     touch main.tf
@@ -374,9 +380,9 @@ You have prepared the infrastructure. So, let's deploy the application on cloud.
 
 2. Deploy your front-end application to OSS
 
-    Upload the files in *dist/* directory to your OSS bucket. Instead we do it from OSS web console, we use [ossutil](https://www.alibabacloud.com/help/doc-detail/50452.htm) to do it in a terminal. Ossutil is a tool in Alibaba Cloud to manage OSS data.
+    Upload the files in *dist/* directory to your OSS bucket. Instead we do it from OSS web console, we use [ossutil](https://www.alibabacloud.com/help/doc-detail/50452.htm) to do it in a terminal. Ossutil is a tool of Alibaba Cloud to manage OSS data.
 
-    1. Change directory
+    1. Change the working directory
 
         Run the following commands:
 
@@ -430,7 +436,7 @@ You have prepared the infrastructure. So, let's deploy the application on cloud.
 
 1. Check the Bucket Domain Name
 
-    In [Alibaba Cloud OSSweb console](https://oss.console.aliyun.com/bucket), select your OSS bucket from the list at left, then check *Bucket Domain Name* for **Internet Access** in your OSS bucket page. It must be like "tf-howo-oss-microservices.oss-cn-qingdao.aliyuncs.com".
+    In [Alibaba Cloud OSS web console](https://oss.console.aliyun.com/bucket), select your OSS bucket from the list at left, then check *Bucket Domain Name* for **Internet Access** in your OSS bucket page. It must be like "tf-howo-oss-microservices.oss-cn-qingdao.aliyuncs.com".
 
 2. Access your website.
 
@@ -449,9 +455,9 @@ If you don't need to change the domain name or accelerate your website, you can 
 
 ### Register a domain in Alibaba Cloud
 
-At first, you have to register domain name in Alibaba Cloud to apply it to your website. If you don't have any domain name, please follow [this document to obtain new domain](https://www.alibabacloud.com/help/doc-detail/54068.htm). If you already have some domain name, please follow [this document to register your domain](https://www.alibabacloud.com/help/doc-detail/58153.htm).
+At first, you have to register domain in Alibaba Cloud to apply it to your website. If you don't have any domain, please follow [this document to obtain new domain](https://www.alibabacloud.com/help/doc-detail/54068.htm). If you already have some domain, please follow [this document to register your domain](https://www.alibabacloud.com/help/doc-detail/58153.htm).
 
-You can check domain name list you registered in Alibaba Cloud from [Domainweb console](https://dc.console.aliyun.com/next/index#/domain/list/all-domain).
+You can check the domain list you registered in Alibaba Cloud from [Domain web console](https://dc.console.aliyun.com/next/index#/domain/list/all-domain).
 
 ### Configure DNS and CDN
 
@@ -622,7 +628,7 @@ Let's create a DNS record and confugure CDN.
 
     You can check your domain name registered to [CDN in Alibaba Cloud CDN web console](https://cdnnext.console.aliyun.com/domain/list). And, you can check your CNAME setting in [Alibaba Cloud DNS web console](https://dns.console.aliyun.com/#/dns/domainList). Please check that CNAME value in the DNS record is same as the CNAME of the registered domain in CDN.
 
-Now, you completed to configure your domain name and accelarate your website with CDN! You can access to your website with your domain on your browser. For example, http://howto.microservices.yyyyy.example.com.
+Now, you completed to configure your domain name and accelarate your website with CDN! You can access your website with your domain on your browser. For example, http://howto.microservices.yyyyy.example.com.
 
 
 The following figure shows the current infrastructure architecture.
@@ -639,7 +645,7 @@ In this step, we prepare a back-end web application, and we will deploy the appl
 
 * [Spring Boot](https://spring.io/projects/spring-boot)
 
-In this tutorial, we will create a back-end web application with Spring Boot. Spring Boot is a Java web framework, which can create stand-alone, production-grade web applications easily. Ofcourse, you can choose other framework for the back-end web application, that you prefer or you think is more appropriete technology as back-end web application.
+In this tutorial, we will create a back-end web application with Spring Boot. Spring Boot is a Java web application framework, which can create stand-alone, production-grade web applications easily. Ofcourse, you can choose other framework for the back-end web application, that you prefer or you think is more appropriete technology as back-end web application.
 
 To run Spring Boot, you have to prepare Java development environment. Please prepare it if you don't have. In this tutorial, Maven is used as a Java project build tool. If you want use other one such as Gradle, please replace settings accordingly.
 
@@ -656,7 +662,7 @@ javac -version
 mvn -v
 ```
 
-This tutorial is checked with the following enviroinment:
+This tutorial was checked with the following enviroinment:
 
 * Java: 11.0.2
 * Maven: apache-maven-3.6.0
@@ -883,7 +889,7 @@ This tutorial is checked with the following enviroinment:
     mvn spring-boot:run
     ```
 
-    then, access to http://localhost:8080/api/user?id=1. The API server should return a simple json, which contains user data. After you confirm it works, stop the server in your IDE or by ctrl+c in a terminal.
+    then, access http://localhost:8080/api/user?id=1. The API server should return a simple json, which contains user data. After you confirm it works, stop the server in your IDE or by ctrl+c in a terminal.
 
 Now, you completed to prepare a simple web API application! We will deploy it on cloud in the next step.
 
@@ -927,7 +933,7 @@ Let's create a VPC, a VSwitch, and an ECS by Terraform. We will do it step by st
     secret_key = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
     # Region in Alibaba Cloud
     region = "cn-qingdao"
-    # The ssh key name of the Alibaba Cloud ECS
+    # The SSH key name of the Alibaba Cloud ECS
     ssh_key_name = "ssh-microservices-backend-tf"
     # The file path of the SSH key which will be saved on local
     ssh_key_local_path = "./ssh-microservices-backend-tf.pem"
@@ -1077,7 +1083,7 @@ Let's create a VPC, a VSwitch, and an ECS by Terraform. We will do it step by st
 
 1. Update the Terraform script (ECS)
 
-    Next, we add configuration about Security Group, SSH key pair, ECS, and EIP into the Terraform script. [Security Group](https://www.alibabacloud.com/help/doc-detail/25387.htm) is a vertual firewall for ECS. With Security Group, ECS can allow or deny the access through the Internet or the intranet. [SSH key pair](https://www.alibabacloud.com/help/doc-detail/51792.htm) is a pair of SSH key for ECS. With SSH key pair, ECS can be connected safely and easily. [EIP](https://www.alibabacloud.com/help/doc-detail/32321.htm) is IP address which can be attached to the instance in VPC. With EIP, ECS can access to and can be accessed from the Internet.
+    Next, we add configuration about Security Group, SSH key pair, ECS, and EIP into the Terraform script. [Security Group](https://www.alibabacloud.com/help/doc-detail/25387.htm) is a vertual firewall for ECS. With Security Group, ECS can allow or deny the access through the Internet or the intranet. [SSH key pair](https://www.alibabacloud.com/help/doc-detail/51792.htm) is a pair of SSH key for ECS. With SSH key pair, ECS can be connected safely and easily. [EIP](https://www.alibabacloud.com/help/doc-detail/32321.htm) is IP address which can be attached to the instance in VPC. With EIP, ECS can access and can be accessed from the Internet.
 
     Please note that we will configure a Security Group with CIDR block 0.0.0.0/0, which indecates all IP addresses, for simplicity in this tutorial. For production environment, it's not recommended.
 
@@ -1372,7 +1378,7 @@ Let's create a VPC, a VSwitch, and an ECS by Terraform. We will do it step by st
 
     After it finished, you can see the ECS you created in [Alibaba Cloud ECS web console](https://ecs.console.aliyun.com/#/server/), or you can see the ECS from the [VPC page](https://vpc.console.aliyun.com/vpc/) because the VPC you created contains the ECS. Also, you can see the created SSH key pair in [this SSH key pairweb console](https://ecs.console.aliyun.com/#/keyPair/region/) and EIP in [this EIP web console](https://vpcnext.console.aliyun.com/eip/). Please note that the region of the web console is correct one.
 
-    Also, you can verify your application on ECS is working by accessing to the server with your IP address on your browser, like http://xxx.xxx.xxx.xxx/api/user?id=1.
+    Also, you can verify your application on ECS is working by accessing the server with your IP address on your browser, like http://xxx.xxx.xxx.xxx/api/user?id=1.
 
 6. Configure DNS
 
@@ -1488,7 +1494,7 @@ Let's create a VPC, a VSwitch, and an ECS by Terraform. We will do it step by st
         Run the following command:
 
         ```sh
-        tf apply
+        terraform apply
         ```
 
         The result should be like this:
@@ -1513,7 +1519,7 @@ Let's create a VPC, a VSwitch, and an ECS by Terraform. We will do it step by st
 
     After it finished, you can check your DNS record in [Alibaba Cloud DNS web console](https://dns.console.aliyun.com/#/dns/domainList).
 
-    Also, you can verify the DNS setting is working by accessing to the server with your domain name on your browser. For example, http://backend-app.microservices.yyyyy.example.com/api/user?id=1. If you can see the response, DNS setting is succeeded.
+    Also, you can verify the DNS setting is working by accessing the server with your domain name on your browser. For example, http://backend-app.microservices.yyyyy.example.com/api/user?id=1. If you can see the response, DNS setting is succeeded.
 
 Now, you completed to deploy your back-end web application on cloud! You already can use many Alibaba Cloud core products; VPC, VSwitch, Security Group, SSH key pair, ECS and EIP.
 
@@ -1522,7 +1528,7 @@ Now, you completed to deploy your back-end web application on cloud! You already
 
 In the this step, we will update the front-end application, because we create the back-end web application in the previous step to be used by front-end, but not used yet.
 
-Let's update the front-end application.
+Let's make the front-end web application request to the back-end web API application.
 
 1. Change the working directory
 
@@ -1661,7 +1667,7 @@ Let's update the front-end application.
 
 5. Verify the application updated
 
-    After your deploy finished, access to your website. If you can see an user's ID and name on the page, the update succeeded!
+    After your deploy finished, access your website. If you can see an user's ID and name on the page, the update succeeded!
 
 Now, you completed to host a website with your front-end web application which can request and get the response data from the back-end server!
 
@@ -2261,7 +2267,7 @@ let's create a simple database API application. We will deploy the application o
     mvn spring-boot:run
     ```
 
-    then, access to http://localhost:8080/api/userpurchase?uid=1. The API server should return simple json, which contains user purchase list. After you confirm it works, stop the server in your IDE or by ctrl+c in a terminal.
+    then, access http://localhost:8080/api/userpurchase?uid=1. The API server should return simple json, which contains user purchase list. After you confirm it works, stop the server in your IDE or by ctrl+c in a terminal.
 
 4. Change the database endpoint configuration
 
@@ -2308,7 +2314,7 @@ In this step, we will deploy the database API application which we created in th
     ```sh
     ...
 
-    # The ssh key name of the Alibaba Cloud ECS
+    # The SSH key name of the Alibaba Cloud ECS
     ssh_key_name = "ssh-microservices-database-tf"
     # The file path of the SSH key which will be saved on local
     ssh_key_local_path = "./ssh-microservices-database-tf.pem"
@@ -2637,7 +2643,7 @@ In this step, we will deploy the database API application which we created in th
 
     After it finished, you can see the ECS you created in [Alibaba Cloud ECS web console](https://ecs.console.aliyun.com/#/server/), SSH key pair in [this SSH key pairweb console](https://ecs.console.aliyun.com/#/keyPair/region/), and EIP in [this EIP web console](https://vpcnext.console.aliyun.com/eip/). Please note that the region of the web console is correct one.
 
-    Also, you can verify your application on ECS is working by accessing to the server with its IP address on your browser. For example, http://xxx.xxx.xxx.xxx/api/userpurchase?uid=1.
+    Also, you can verify your application on ECS is working by accessing the server with its IP address on your browser. For example, http://xxx.xxx.xxx.xxx/api/userpurchase?uid=1.
 
 Now, you completed to deploy your database API application on cloud!
 
@@ -2935,7 +2941,7 @@ Let's update the front-end application.
     mvn spring-boot:run
     ```
 
-    then, access to http://localhost:8080/api/user?id=1. The API server should return simple json, which contains user data with user's purchase list. After you confirm it works, stop the server in your IDE or by ctrl+c in a terminal.
+    then, access http://localhost:8080/api/user?id=1. The API server should return simple json, which contains user data with user's purchase list. After you confirm it works, stop the server in your IDE or by ctrl+c in a terminal.
 
 5. Change the database API connection settings
 
@@ -2997,7 +3003,7 @@ Let's update the front-end application.
 
     Now, you updated the back-end web application. It gets database information through the database API application server with its private IP address.
 
-    Let's access to the back-end web appliction with you domain name or IP address to check it works. For example, http://backend-app.microservices.yyyyy.example.com/api/user?id=1. If you can see not only an user's ID and name but also user's purchase list, the update succeeded!
+    Let's access the back-end web appliction with you domain name or IP address to check it works. For example, http://backend-app.microservices.yyyyy.example.com/api/user?id=1. If you can see not only an user's ID and name but also user's purchase list, the update succeeded!
 
     Also, the back-end web application returns response to the front-end web application. The front-end web application was added feature to show user information when we updated it in [this step](#-Step-2-3---update-front-end-resources). So, you can see the user's purchase list in your website too.
 
@@ -3124,7 +3130,7 @@ Let's update the front-end application.
 
         Now, we made the ECS of the database API application private.
 
-Congratulation! You already completed to create a microservice. It contains a front-end web application, back-end web application, and database API application with managed database. The content is simple and small but it gets the basics of microservices architecture. And you already know how to use many Alibaba Cloud services; VPC, VSwitch, Security Group, EIP, ECS, RDS, OSS, CDN, and DNS.
+Congratulation! You already completed to create a microservice! It contains a front-end web application, back-end web application, and database API application with managed database. The content is simple and small but it gets the basics of microservices architecture. You already know how to use Terraform with Alibaba Cloud very much, and also you already know how to use many Alibaba Cloud services; VPC, VSwitch, Security Group, EIP, ECS, RDS, OSS, CDN, and DNS.
 
 In the later part, this tutorial will introduce how to integrate a load balancer and auto scaling function to the servers. We realize it by other commonly used Alibaba Cloud services, SLB and Auto Scaling. Your microservice will get bigger and more robust.
 
@@ -3347,7 +3353,7 @@ First, we add an ECS for back-end web application which will be attached to the 
     [output] vpc id = vpc-m5e2tm99irdv6zc9k61ks
     ```
 
-    After it finished, you can verify your application on the second ECS is working by accessing to the server with its IP address on your browser, like http://xxx.xxx.xxx.xxx/api/user?id=1. Since you changed the user data in the source code, you can see the user names are different from the first ECS one.
+    After it finished, you can verify your application on the second ECS is working by accessing the server with its IP address on your browser, like http://xxx.xxx.xxx.xxx/api/user?id=1. Since you changed the user data in the source code, you can see the user names are different from the first ECS one.
 
     Please note that the front-end application is still using only the first ECS of the back-end application, because the domain name is only connected to the IP address of the first one and the front-end application requests to it. If you didn't set DNS record configuration before, ofcourse it's same since the front-end applicaion requests to the IP address of the first ECS. We will solve this problem by using SLB in the next step.
 
@@ -3360,6 +3366,7 @@ Second, we add a SLB which connects to the two ECSs we created. What we need is 
 
     Add the configuration about the SLB. Please note that DNS record value is changed from the EIP of ECS to EIP of SLB.
 
+    `main.tf`
     ```sh
     ...
 
@@ -3535,7 +3542,7 @@ Second, we add a SLB which connects to the two ECSs we created. What we need is 
 
     After it finished, you can see the SLB you created in [Alibaba Cloud SLB web console](https://slb.console.aliyun.com/slb/). Please note that the region of the web console is correct one.
 
-    Also, you can verify the SLB is working by accessing to the server with you domain name on your browser. For example, http://backend-app.microservices.yyyyy.example.com/api/user?id=1. Since you changed the user data in the source code for one of the ECS, you can see the user names change when you access to the server many times. You can check it quickly by keeping press ctrl+r on browser.
+    Also, you can verify the SLB is working by accessing the server with you domain name on your browser. For example, http://backend-app.microservices.yyyyy.example.com/api/user?id=1. Since you changed the user data in the source code for one of the ECS, you can see the user names change when you access the server many times. You can check it quickly by keeping press ctrl+r on browser.
 
 Now, you completed to use a load balancer in front of servers!
 
@@ -3593,6 +3600,7 @@ We will use Packer in this step. It can automates creating machine image and it 
 
     and copy the following content into the file.
 
+    `packer.json`
     ```json
     {
         "builders": [{
@@ -3642,7 +3650,7 @@ We will use Packer in this step. It can automates creating machine image and it 
     }
     ```
 
-    In the *builders* section, it describes we use Alibaba Cloud ECS machine image, which is same as the one we used for the ECSs. In the *provisioners* section, it describes provisioning configuration which is really similar to the Terraform one. The first one and second one correspond to the local-exec provisioner, and the third one correspond to the remote-exec in the Terraform one which we used. The difference is that we don't use firewall system service unit to configure port forwarding this time. Instead, we do port forwarding by SLB. Please note that the *file* type provisioner can only refer the file in the current directory or child directory.
+    In the *builders* section, it describes we use Alibaba Cloud ECS machine image, which is same as the one we used for the ECSs. In the *provisioners* section, it describes provisioning configuration which is really similar to the Terraform one. The first one and second one correspond to the local-exec provisioner, and the third one correspond to the remote-exec in the Terraform script which we used. The difference is that we don't use firewall system service unit to configure port forwarding this time. Instead, we will do port forwarding by SLB. Please note that the *file* type provisioner can only refer the file in the current directory or child directory.
 
 4. Prepare files used by Packer provisioner
 
@@ -3709,7 +3717,7 @@ We will use Packer in this step. It can automates creating machine image and it 
     ```sh
     ...
 
-    # The ECS image used by the Auto Scaling Group. Please copy it from the Packer script output.
+    # The ECS image used by the Auto Scaling Group. Please copy from the Packer script output and change it.
     ecs_image_id = "m-mxxxxxxxxxxxxxxxxxxx"
     ```
 
@@ -3916,9 +3924,9 @@ We will use Packer in this step. It can automates creating machine image and it 
     [output] vpc id = vpc-m5e6qf260ypb2scdtoe4l
     ```
 
-    After it finished, you can see the Auto Scaling Group you created in [Alibaba Cloud Auto Scaling web console](https://essnew.console.aliyun.com/#/ess/). Please note that the region of the web console is correct one. The Auto Scaling Group must be connected with the SLB we created before, and it must contain a new ECS which is created from your ECS image in the current VSwitch. You can access to the SLB web console page from the Auto Scaling web console page.
+    After it finished, you can see the Auto Scaling Group you created in [Alibaba Cloud Auto Scaling web console](https://essnew.console.aliyun.com/#/ess/). Please note that the region of the web console is correct one. The Auto Scaling Group must be connected with the SLB we created before, and it must contain a new ECS which is created from your ECS image in the current VSwitch. You can access the SLB web console page from the Auto Scaling web console page.
 
-    Also, you can check your back-end web application server is working by access to the server with your IP address on your browser, like http://xxx.xxx.xxx.xxx/api/user?id=1.
+    Also, you can check your back-end web application server is working by access the server with your IP address on your browser, like http://xxx.xxx.xxx.xxx/api/user?id=1.
 
 5. Add an Auto Scaling Group rule
 
@@ -3933,17 +3941,11 @@ We will use Packer in this step. It can automates creating machine image and it 
     3. Click the button "Create Scaling Rule" at the right side.
 
     4. Configure the rule with following values
-
         * Name: asg-rule-target-cpu70
-
         * Rule Type: Target Tracking Scaling Rule
-
         * Metric Name: Average CPU Usage
-
         * Target Value: 70%
-
         * Warmup Time: 180
-
         * Disable Scale-in: uncheck
 
         ![images/asg_create_scaling_rule.png](images/asg_create_scaling_rule.png)
@@ -4084,7 +4086,7 @@ At last, this tutorial will show how to update the servers with Auto Scaling. Th
 
     and return the inline user data in the UserApi.java at src/main/java/com/backendapp/controller/ as follow:
 
-    `UserApi`
+    `UserApi.java`
     ```java
     ...
 
@@ -4314,8 +4316,8 @@ At last, this tutorial will show how to update the servers with Auto Scaling. Th
         terraform apply -auto-approve  # skip the asking for typing yes
         ```
 
-        Now, the setting value has returned to the same as the initial one, and only new one exists. You can check that it has been updated by accessing to the website on your browser.
-        
+        Now, the setting value has returned to the same as the initial one, and only new one exists. You can check that it has been updated by accessing the website on your browser.
+
         ![images/asg_min1_max3.png](images/asg_min1_max3.png)
 
 Now, you completed to update your application with Auto Scaling!
@@ -4345,9 +4347,9 @@ cd ../../back/infrastructure/
 terraform destroy
 ```
 
-Congraturation! You completed all steps of this tutorial. Thank you for following this tutorial.
+Congraturation! You completed all steps. Thank you for following this tutorial.
 
-In tutorial, we updated the server manually. It's no problem for once or serveral times. But if you need to update your application many times, it's not good approach, because manual update needs time and also it may lead operation mistakes. To solve this problem, you can follow CI/CD approach.
+In tutorial, we updated the server manually. It's no problem for once or serveral times. But if you need to update your application many times, it's not smart approach, because manual update needs time and also it may lead operation mistakes. To solve this problem, you can follow CI/CD approach.
 
 These days, because a web application with HTTP is not safe enough for the current internet environment, it is standard to provide web applications with HTTPS. In this tutorial case, our back-end web application can be provided by HTTPS by applying a SSL certificate to the SLB.
 
