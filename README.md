@@ -54,14 +54,12 @@ Before starting this tutorial, you need to prepare the following things.
 
 We will use Terraform in this tutorial many times. It is a powerful tool of Infrastructure as code made by HashCorp. It can automate constructing cloud infrastructure. Please install it if you don't have.
 
-**NOTE**: No available provider "alicloud" plugins are compatible with the Terraform version 0.12.x yet. Please install **0.11.x** version. (Jun. 27, 2019)
-
 It enables us to create cloud resources effectively. Also, it enables us to manage the cloud infrastructure with files. Terraform configuration files contain the information of cloud resources and the architecture, and also Terraform saves the state of cloud resources in files after it applys changes.
 
 This tutorial was checked with the following enviroinment:
 
 * macOS High Sierra: 10.13.4
-* Terraform: 0.11.11 (with plugin for provider "alicloud" (1.46.0))
+* Terraform: 0.11.11 (with plugin for provider "alicloud" (1.46.0)) (**UPDATED** The guide for the Terraform script has changed to have compatibility with v0.12.x)
 
 
 ## Step 1-1 - Create a front-end application
@@ -251,10 +249,10 @@ Let's deploy the front-end web application which we created in the previous step
 
 
     # Output
-    output "[output] oss id" {
+    output "oss__id" {
         value = "${alicloud_oss_bucket.oss.id}"
     }
-    output "[output] oss extranet_endpoint" {
+    output "oss__extranet_endpoint" {
         value = "${alicloud_oss_bucket.oss.extranet_endpoint}"
     }
     ```
@@ -355,8 +353,8 @@ Let's deploy the front-end web application which we created in the previous step
 
     Outputs:
 
-    [output] oss id = tf-howto-oss-microservices
-    [output] oss extranet_endpoint = oss-cn-qingdao.aliyuncs.com
+    oss__id = tf-howto-oss-microservices
+    oss__extranet_endpoint = oss-cn-qingdao.aliyuncs.com
     ```
 
     After it finished, you can see the OSS bucket you created in [Alibaba Cloud OSS web console](https://oss.console.aliyun.com/bucket).
@@ -533,7 +531,7 @@ Let's create a DNS record and confugure CDN.
 
     # Output
     ...
-    output "[output] cdn domain_name" {
+    output "cdn__domain_name" {
       value = "${alicloud_cdn_domain_new.domain.domain_name}"
     }
     ```
@@ -621,9 +619,9 @@ Let's create a DNS record and confugure CDN.
 
     Outputs:
 
-    [output] cdn domain_name = howto.microservices.yyyyy.example.com
-    [output] oss extranet_endpoint = oss-cn-qingdao.aliyuncs.com
-    [output] oss id = tf-howto-oss-microservices
+    cdn__domain_name = howto.microservices.yyyyy.example.com
+    oss__extranet_endpoint = oss-cn-qingdao.aliyuncs.com
+    oss__id = tf-howto-oss-microservices
     ```
 
     You can check your domain name registered to [CDN in Alibaba Cloud CDN web console](https://cdnnext.console.aliyun.com/domain/list). And, you can check your CNAME setting in [Alibaba Cloud DNS web console](https://dns.console.aliyun.com/#/dns/domainList). Please check that CNAME value in the DNS record is same as the CNAME of the registered domain in CDN.
@@ -992,7 +990,7 @@ Let's create a VPC, a VSwitch, and an ECS by Terraform. We will do it step by st
     }
 
     # Output
-    output "[output] vpc id" {
+    output "vpc__id" {
         value = "${alicloud_vpc.vpc.id}"
     }
     ```
@@ -1074,7 +1072,7 @@ Let's create a VPC, a VSwitch, and an ECS by Terraform. We will do it step by st
 
     Outputs:
 
-    [output] vpc id = vpc-m5edk6ywebom4n4nilxmj
+    vpc__id = vpc-m5edk6ywebom4n4nilxmj
     ```
 
     After it finished, you can see the VPC you created in [Alibaba Cloud VPC web console](https://vpc.console.aliyun.com/vpc/). Please note that the region of the web console is correct one.
@@ -1139,7 +1137,7 @@ Let's create a VPC, a VSwitch, and an ECS by Terraform. We will do it step by st
         most_recent = true
         owners = "system"
     }
-    data "alicloud_instance_types" "2c4g" {
+    data "alicloud_instance_types" "type2c4g" {
         cpu_core_count = 2
         memory_size = 4
         availability_zone = "${data.alicloud_zones.zones.zones.0.id}"
@@ -1150,7 +1148,7 @@ Let's create a VPC, a VSwitch, and an ECS by Terraform. We will do it step by st
         security_groups = ["${alicloud_security_group.sg.id}"]
         vswitch_id = "${alicloud_vswitch.vswitch.id}"
         image_id = "${data.alicloud_images.centos.images.0.id}"
-        instance_type = "${data.alicloud_instance_types.2c4g.instance_types.0.id}"
+        instance_type = "${data.alicloud_instance_types.type2c4g.instance_types.0.id}"
         instance_name = "${var.prefix}ecs1${var.suffix}"
 
         key_name = "${alicloud_key_pair.keypair_ecs1.key_name}"
@@ -1185,22 +1183,22 @@ Let's create a VPC, a VSwitch, and an ECS by Terraform. We will do it step by st
 
 
     # Output
-    output "[output] vpc id" {
+    output "vpc__id" {
         value = "${alicloud_vpc.vpc.id}"
     }
-    output "[output] ecs1 id" {
+    output "ecs1__id" {
         value = "${alicloud_instance.ecs1.id}"
     }
-    output "[output] ecs1 image_id" {
+    output "ecs1__image_id" {
         value = "${alicloud_instance.ecs1.image_id}"
     }
-    output "[output] ecs1 instance_type" {
+    output "ecs1__instance_type" {
         value = "${alicloud_instance.ecs1.instance_type}"
     }
-    output "[output] ecs1 keypair_ecs1 key_name" {
+    output "ecs1__keypair_ecs1__key_name" {
         value = "${alicloud_key_pair.keypair_ecs1.key_name}"
     }
-    output "[output] ecs1 eip_ecs1 ip_address" {
+    output "ecs1__eip_ecs1__ip_address" {
         value = "${alicloud_eip.eip_ecs1.ip_address}"
     }
     ```
@@ -1368,12 +1366,12 @@ Let's create a VPC, a VSwitch, and an ECS by Terraform. We will do it step by st
 
     Outputs:
 
-    [output] ecs1 eip_ecs1 ip_address = xxx.xxx.xxx.xxx
-    [output] ecs1 id = i-m5ebqtasd72smnausnnm
-    [output] ecs1 image_id = centos_7_06_64_20G_alibase_20190218.vhd
-    [output] ecs1 instance_type = ecs.n1.medium
-    [output] ecs1 keypair_ecs1 key_name = ssh-microservices-backend-tf
-    [output] vpc id = vpc-m5ek428zm9h71pedi84h0
+    ecs1__eip_ecs1__ip_address = xxx.xxx.xxx.xxx
+    ecs1__id = i-m5ebqtasd72smnausnnm
+    ecs1__image_id = centos_7_06_64_20G_alibase_20190218.vhd
+    ecs1__instance_type = ecs.n1.medium
+    ecs1__keypair_ecs1__key_name = ssh-microservices-backend-tf
+    vpc__id = vpc-m5ek428zm9h71pedi84h0
     ```
 
     After it finished, you can see the ECS you created in [Alibaba Cloud ECS web console](https://ecs.console.aliyun.com/#/server/), or you can see the ECS from the [VPC page](https://vpc.console.aliyun.com/vpc/) because the VPC you created contains the ECS. Also, you can see the created SSH key pair in [this SSH key pairweb console](https://ecs.console.aliyun.com/#/keyPair/region/) and EIP in [this EIP web console](https://vpcnext.console.aliyun.com/eip/). Please note that the region of the web console is correct one.
@@ -1453,7 +1451,7 @@ Let's create a VPC, a VSwitch, and an ECS by Terraform. We will do it step by st
         # Output
         ...
 
-        output "[output] dns domain_name" {
+        output "dns__domain_name" {
             value = "${alicloud_dns_record.record.host_record}.${alicloud_dns_record.record.name}"
         }
         ```
@@ -1508,13 +1506,13 @@ Let's create a VPC, a VSwitch, and an ECS by Terraform. We will do it step by st
 
         Outputs:
 
-        [output] dns domain_name = backend-app.microservices.yyyyy.example.com
-        [output] ecs1 eip_ecs1 ip_address = xxx.xxx.xxx.xxx
-        [output] ecs1 id = i-m5e0zsm04q85ujax49yw
-        [output] ecs1 image_id = centos_7_06_64_20G_alibase_20190218.vhd
-        [output] ecs1 instance_type = ecs.n1.medium
-        [output] ecs1 keypair_ecs1 key_name = ssh-microservices-backend-tf
-        [output] vpc id = vpc-m5ewy6dhspvntilntwltf
+        dns__domain_name = backend-app.microservices.yyyyy.example.com
+        ecs1__eip_ecs1__ip_address = xxx.xxx.xxx.xxx
+        ecs1__id = i-m5e0zsm04q85ujax49yw
+        ecs1__image_id = centos_7_06_64_20G_alibase_20190218.vhd
+        ecs1__instance_type = ecs.n1.medium
+        ecs1__keypair_ecs1__key_name = ssh-microservices-backend-tf
+        vpc__id = vpc-m5ewy6dhspvntilntwltf
         ```
 
     After it finished, you can check your DNS record in [Alibaba Cloud DNS web console](https://dns.console.aliyun.com/#/dns/domainList).
@@ -1823,13 +1821,13 @@ Let's create a RDS for MySQL database instance.
 
 
     # Output
-    output "[output] rds1 id" {
+    output "rds1__id" {
         value = "${alicloud_db_instance.rds1.id}"
     }
-    output "[output] rds1 intranet connection endpoint" {
+    output "rds1__intranet__connection__endpoint" {
         value = "${alicloud_db_instance.rds1.connection_string}"
     }
-    output "[output] rds1 internet connection endpoint" {
+    output "rds1__internet__connection__endpoint" {
         value = "${alicloud_db_connection.connection.connection_string}"
     }
     ```
@@ -1952,9 +1950,9 @@ Let's create a RDS for MySQL database instance.
 
     Outputs:
 
-    [output] rds1 id = rm-m5e5e45pu9u9n711l
-    [output] rds1 internet connection endpoint = rm-m5e5e45pu9u9n711ltf.mysql.rds.aliyuncs.com
-    [output] rds1 intranet connection endpoint = rm-m5e5e45pu9u9n711l.mysql.rds.aliyuncs.com
+    rds1__id = rm-m5e5e45pu9u9n711l
+    rds1__internet__connection__endpoint = rm-m5e5e45pu9u9n711ltf.mysql.rds.aliyuncs.com
+    rds1__intranet__connection__endpoint = rm-m5e5e45pu9u9n711l.mysql.rds.aliyuncs.com
     ```
 
     After it finished, you can see the RDS you created in [Alibaba Cloud RDS web console](https://rdsnext.console.aliyun.com/#/rdsList). Please note that the region of the web console is correct one.
@@ -2399,7 +2397,7 @@ In this step, we will deploy the database API application which we created in th
         most_recent = true
         owners = "system"
     }
-    data "alicloud_instance_types" "2c4g" {
+    data "alicloud_instance_types" "type2c4g" {
         cpu_core_count = 2
         memory_size = 4
         availability_zone = "${data.alicloud_vswitches.backend_vswitch.vswitches.0.zone_id}"
@@ -2410,7 +2408,7 @@ In this step, we will deploy the database API application which we created in th
         security_groups = ["${alicloud_security_group.sg.id}"]
         vswitch_id = "${alicloud_vswitch.vswitch.id}"
         image_id = "${data.alicloud_images.centos.images.0.id}"
-        instance_type = "${data.alicloud_instance_types.2c4g.instance_types.0.id}"
+        instance_type = "${data.alicloud_instance_types.type2c4g.instance_types.0.id}"
         instance_name = "${var.prefix}ecs1${var.suffix}"
 
         key_name = "${alicloud_key_pair.keypair_ecs1.key_name}"
@@ -2445,28 +2443,28 @@ In this step, we will deploy the database API application which we created in th
 
 
     # Output
-    output "[output] ecs1 id" {
+    output "ecs1__id" {
         value = "${alicloud_instance.ecs1.id}"
     }
-    output "[output] ecs1 image_id" {
+    output "ecs1__image_id" {
         value = "${alicloud_instance.ecs1.image_id}"
     }
-    output "[output] ecs1 private_ip " {
+    output "ecs1__private_ip " {
         value = "${alicloud_instance.ecs1.private_ip }"
     }
-    output "[output] ecs1 keypair_ecs1 key_name" {
+    output "ecs1__keypair_ecs1__key_name" {
         value = "${alicloud_key_pair.keypair_ecs1.key_name}"
     }
-    output "[output] ecs1 eip_ecs1 ip_address" {
+    output "ecs1__eip_ecs1__ip_address" {
         value = "${alicloud_eip.eip_ecs1.ip_address}"
     }
-    output "[output] rds1 id" {
+    output "rds1__id" {
         value = "${alicloud_db_instance.rds1.id}"
     }
-    output "[output] rds1 intranet connection endpoint" {
+    output "rds1__intranet__connection__endpoint" {
         value = "${alicloud_db_instance.rds1.connection_string}"
     }
-    output "[output] rds1 internet connection endpoint" {
+    output "rds1__internet__connection__endpoint" {
         value = "${alicloud_db_connection.connection.connection_string}"
     }
     ```
@@ -2631,14 +2629,14 @@ In this step, we will deploy the database API application which we created in th
 
     Outputs:
 
-    [output] ecs1 eip_ecs1 ip_address = xxx.xxx.xxx.xxx
-    [output] ecs1 id = i-m5e0hz9g2db9au6goi27
-    [output] ecs1 image_id = centos_7_06_64_20G_alibase_20190218.vhd
-    [output] ecs1 keypair_ecs1 key_name = ssh-microservices-database-tf
-    [output] ecs1 private_ip  = 192.168.1.170
-    [output] rds1 id = rm-m5ek066jb2z7t5m1h
-    [output] rds1 internet connection endpoint = rm-m5ek066jb2z7t5m1htf.mysql.rds.aliyuncs.com
-    [output] rds1 intranet connection endpoint = rm-m5ek066jb2z7t5m1h.mysql.rds.aliyuncs.com
+    ecs1__eip_ecs1__ip_address = xxx.xxx.xxx.xxx
+    ecs1__id = i-m5e0hz9g2db9au6goi27
+    ecs1__image_id = centos_7_06_64_20G_alibase_20190218.vhd
+    ecs1__keypair_ecs1__key_name = ssh-microservices-database-tf
+    ecs1__private_ip  = 192.168.1.170
+    rds1__id = rm-m5ek066jb2z7t5m1h
+    rds1__internet__connection__endpoint = rm-m5ek066jb2z7t5m1htf.mysql.rds.aliyuncs.com
+    rds1__intranet__connection__endpoint = rm-m5ek066jb2z7t5m1h.mysql.rds.aliyuncs.com
     ```
 
     After it finished, you can see the ECS you created in [Alibaba Cloud ECS web console](https://ecs.console.aliyun.com/#/server/), SSH key pair in [this SSH key pairweb console](https://ecs.console.aliyun.com/#/keyPair/region/), and EIP in [this EIP web console](https://vpcnext.console.aliyun.com/eip/). Please note that the region of the web console is correct one.
@@ -3059,7 +3057,7 @@ Let's update the front-end application.
 
         # Output
         ...
-        # output "[output] ecs1 eip_ecs1 ip_address" {
+        # output "ecs1__eip_ecs1__ip_address" {
         #     value = "${alicloud_eip.eip_ecs1.ip_address}"
         # }
         ...
@@ -3118,13 +3116,13 @@ Let's update the front-end application.
 
         Outputs:
 
-        [output] ecs1 id = i-m5e5aq5a42n0ke8srb5u
-        [output] ecs1 image_id = centos_7_06_64_20G_alibase_20190218.vhd
-        [output] ecs1 keypair_ecs1 key_name = ssh-microservices-database-tf
-        [output] ecs1 private_ip = 192.168.1.170
-        [output] rds1 id = rm-m5ek066jb2z7t5m1h
-        [output] rds1 internet connection endpoint = rm-m5ek066jb2z7t5m1htf.mysql.rds.aliyuncs.com
-        [output] rds1 intranet connection endpoint = rm-m5ek066jb2z7t5m1h.mysql.rds.aliyuncs.com
+        ecs1__id = i-m5e5aq5a42n0ke8srb5u
+        ecs1__image_id = centos_7_06_64_20G_alibase_20190218.vhd
+        ecs1__keypair_ecs1__key_name = ssh-microservices-database-tf
+        ecs1__private_ip = 192.168.1.170
+        rds1__id = rm-m5ek066jb2z7t5m1h
+        rds1__internet__connection__endpoint = rm-m5ek066jb2z7t5m1htf.mysql.rds.aliyuncs.com
+        rds1__intranet__connection__endpoint = rm-m5ek066jb2z7t5m1h.mysql.rds.aliyuncs.com
         ...
         ```
 
@@ -3232,7 +3230,7 @@ First, we add an ECS for back-end web application which will be attached to the 
         security_groups = ["${alicloud_security_group.sg.id}"]
         vswitch_id = "${alicloud_vswitch.vswitch.id}"
         image_id = "${data.alicloud_images.centos.images.0.id}"
-        instance_type = "${data.alicloud_instance_types.2c4g.instance_types.0.id}"
+        instance_type = "${data.alicloud_instance_types.type2c4g.instance_types.0.id}"
         instance_name = "${var.prefix}ecs2${var.suffix}"
 
         key_name = "${alicloud_key_pair.keypair_ecs1.key_name}"  # re-use the same SSH key as the one used by the ECS 1
@@ -3270,13 +3268,13 @@ First, we add an ECS for back-end web application which will be attached to the 
 
     # Output
     ...
-    output "[output] ecs2 id" {
+    output "ecs2__id" {
         value = "${alicloud_instance.ecs2.id}"
     }
-    output "[output] ecs2 image_id" {
+    output "ecs2__image_id" {
         value = "${alicloud_instance.ecs2.image_id}"
     }
-    output "[output] ecs2 eip_ecs2 ip_address" {
+    output "ecs2__eip_ecs2__ip_address" {
         value = "${alicloud_eip.eip_ecs2.ip_address}"
     }
 
@@ -3341,16 +3339,16 @@ First, we add an ECS for back-end web application which will be attached to the 
 
     Outputs:
 
-    [output] dns domain_name = backend-app.microservices.yyyyy.example.com
-    [output] ecs1 eip_ecs1 ip_address = xxx.xxx.xxx.xxx
-    [output] ecs1 id = i-m5e8rgxx5oxdbrsvtu76
-    [output] ecs1 image_id = centos_7_06_64_20G_alibase_20190218.vhd
-    [output] ecs1 instance_type = ecs.n1.medium
-    [output] ecs1 keypair_ecs1 key_name = ssh-microservices-backend-tf
-    [output] ecs2 eip_ecs2 ip_address = xxx.xxx.xxx.xxx
-    [output] ecs2 id = i-m5e8kwzqpdbm8s6tsq0m
-    [output] ecs2 image_id = centos_7_06_64_20G_alibase_20190218.vhd
-    [output] vpc id = vpc-m5e2tm99irdv6zc9k61ks
+    dns__domain_name = backend-app.microservices.yyyyy.example.com
+    ecs1__eip_ecs1__ip_address = xxx.xxx.xxx.xxx
+    ecs1__id = i-m5e8rgxx5oxdbrsvtu76
+    ecs1__image_id = centos_7_06_64_20G_alibase_20190218.vhd
+    ecs1__instance_type = ecs.n1.medium
+    ecs1__keypair_ecs1 key_name = ssh-microservices-backend-tf
+    ecs2__eip_ecs2__ip_address = xxx.xxx.xxx.xxx
+    ecs2__id = i-m5e8kwzqpdbm8s6tsq0m
+    ecs2__image_id = centos_7_06_64_20G_alibase_20190218.vhd
+    vpc__id = vpc-m5e2tm99irdv6zc9k61ks
     ```
 
     After it finished, you can verify your application on the second ECS is working by accessing the server with its IP address on your browser, like http://xxx.xxx.xxx.xxx/api/user?id=1. Since you changed the user data in the source code, you can see the user names are different from the first ECS one.
@@ -3418,40 +3416,40 @@ Second, we add a SLB which connects to the two ECSs we created. What we need is 
 
 
     # Output
-    output "[output] vpc id" {
+    output "vpc__id" {
         value = "${alicloud_vpc.vpc.id}"
     }
-    output "[output] ecs1 id" {
+    output "ecs1__id" {
         value = "${alicloud_instance.ecs1.id}"
     }
-    output "[output] ecs1 image_id" {
+    output "ecs1__image_id" {
         value = "${alicloud_instance.ecs1.image_id}"
     }
-    output "[output] ecs1 instance_type" {
+    output "ecs1__instance_type" {
         value = "${alicloud_instance.ecs1.instance_type}"
     }
-    output "[output] ecs1 keypair_ecs1 key_name" {
+    output "ecs1__keypair_ecs1 key_name" {
         value = "${alicloud_key_pair.keypair_ecs1.key_name}"
     }
-    output "[output] ecs1 eip_ecs1 ip_address" {
+    output "ecs1__eip_ecs1__ip_address" {
         value = "${alicloud_eip.eip_ecs1.ip_address}"
     }
-    output "[output] ecs2 id" {
+    output "ecs2__id" {
         value = "${alicloud_instance.ecs2.id}"
     }
-    output "[output] ecs2 image_id" {
+    output "ecs2__image_id" {
         value = "${alicloud_instance.ecs2.image_id}"
     }
-    output "[output] ecs2 eip_ecs2 ip_address" {
+    output "ecs2__eip_ecs2__ip_address" {
         value = "${alicloud_eip.eip_ecs2.ip_address}"
     }
-    output "[output] eip_slb ip_address" {
+    output "eip_slb__ip_address" {
         value = "${alicloud_eip.eip_slb.ip_address}"
     }
-    output "[output] dns_record ip" {
+    output "dns_record__ip" {
         value = "${alicloud_dns_record.record.value}"
     }
-    output "[output] dns domain_name" {
+    output "dns__domain_name" {
         value = "${alicloud_dns_record.record.host_record}.${alicloud_dns_record.record.name}"
     }
     ```
@@ -3526,18 +3524,18 @@ Second, we add a SLB which connects to the two ECSs we created. What we need is 
 
     Outputs:
 
-    [output] dns_record ip = xxx.xxx.xxx.xxx
-    [output] eip_slb ip_address = xxx.xxx.xxx.xxx
-    [output] dns domain_name = backend-app.microservices.yyyyy.example.com
-    [output] ecs1 eip_ecs1 ip_address = xxx.xxx.xxx.xxx
-    [output] ecs1 id = i-m5e8rgxx5oxdbrsvtu76
-    [output] ecs1 image_id = centos_7_06_64_20G_alibase_20190218.vhd
-    [output] ecs1 instance_type = ecs.n1.medium
-    [output] ecs1 keypair_ecs1 key_name = ssh-microservices-backend-tf
-    [output] ecs2 eip_ecs2 ip_address = xxx.xxx.xxx.xxx
-    [output] ecs2 id = i-m5e8kwzqpdbm8s6tsq0m
-    [output] ecs2 image_id = centos_7_06_64_20G_alibase_20190218.vhd
-    [output] vpc id = vpc-m5e2tm99irdv6zc9k61ks
+    dns_record__ip = xxx.xxx.xxx.xxx
+    eip_slb__ip_address = xxx.xxx.xxx.xxx
+    dns__domain_name = backend-app.microservices.yyyyy.example.com
+    ecs1__eip_ecs1__ip_address = xxx.xxx.xxx.xxx
+    ecs1__id = i-m5e8rgxx5oxdbrsvtu76
+    ecs1__image_id = centos_7_06_64_20G_alibase_20190218.vhd
+    ecs1__instance_type = ecs.n1.medium
+    ecs1__keypair_ecs1__key_name = ssh-microservices-backend-tf
+    ecs2__eip_ecs2__ip_address = xxx.xxx.xxx.xxx
+    ecs2__id = i-m5e8kwzqpdbm8s6tsq0m
+    ecs2__image_id = centos_7_06_64_20G_alibase_20190218.vhd
+    vpc__id = vpc-m5e2tm99irdv6zc9k61ks
     ```
 
     After it finished, you can see the SLB you created in [Alibaba Cloud SLB web console](https://slb.console.aliyun.com/slb/). Please note that the region of the web console is correct one.
@@ -3792,7 +3790,7 @@ We will use Packer in this step. It can automates creating machine image and it 
     resource "alicloud_ess_scaling_configuration" "config" {
         scaling_group_id  = "${alicloud_ess_scaling_group.asg.id}"
         image_id = "${var.ecs_image_id}"
-        instance_type = "${data.alicloud_instance_types.2c4g.instance_types.0.id}"
+        instance_type = "${data.alicloud_instance_types.type2c4g.instance_types.0.id}"
         security_group_id = "${alicloud_security_group.sg.id}"
 
         key_name = "${alicloud_key_pair.keypair_ecs1.key_name}"  # re-use the same SSH key as the one used by the ECS 1
@@ -3808,34 +3806,34 @@ We will use Packer in this step. It can automates creating machine image and it 
 
 
     # Output
-    output "[output] vpc id" {
+    output "vpc__id" {
         value = "${alicloud_vpc.vpc.id}"
     }
-    output "[output] ecs1 id" {
+    output "ecs1__id" {
         value = "${alicloud_instance.ecs1.id}"
     }
-    output "[output] ecs1 image_id" {
+    output "ecs1__image_id" {
         value = "${alicloud_instance.ecs1.image_id}"
     }
-    output "[output] ecs1 instance_type" {
+    output "ecs1__instance_type" {
         value = "${alicloud_instance.ecs1.instance_type}"
     }
-    output "[output] ecs1 keypair_ecs1 key_name" {
+    output "ecs1__keypair_ecs1 key_name" {
         value = "${alicloud_key_pair.keypair_ecs1.key_name}"
     }
-    output "[output] ecs1 eip_ecs1 ip_address" {
+    output "ecs1__eip_ecs1 ip_address" {
         value = "${alicloud_eip.eip_ecs1.ip_address}"
     }
-    output "[output] eip_slb ip_address" {
+    output "eip_slb__ip_address" {
         value = "${alicloud_eip.eip_slb.ip_address}"
     }
-    output "[output] dns_record ip" {
+    output "dns_record__ip" {
         value = "${alicloud_dns_record.record.value}"
     }
-    output "[output] dns domain_name" {
+    output "dns__domain_name" {
         value = "${alicloud_dns_record.record.host_record}.${alicloud_dns_record.record.name}"
     }
-    output "[output] asg id" {
+    output "asg__id" {
         value = "${alicloud_ess_scaling_group.asg.id}"
     }
     ```
@@ -3912,16 +3910,16 @@ We will use Packer in this step. It can automates creating machine image and it 
 
     Outputs:
 
-    [output] asg id = asg-m5e9zaz0dz6081z5gdqv
-    [output] dns domain_name = backend-app.microservices.yyyyy.example.com
-    [output] dns_record ip = xxx.xxx.xxx.xxx
-    [output] ecs1 eip_ecs1 ip_address = xxx.xxx.xxx.xxx
-    [output] ecs1 id = i-m5ee6wmn63wpgafc5jv9
-    [output] ecs1 image_id = centos_7_06_64_20G_alibase_20190218.vhd
-    [output] ecs1 instance_type = ecs.n1.medium
-    [output] ecs1 keypair_ecs1 key_name = ssh-microservices-backend-tf
-    [output] eip_slb ip_address = xxx.xxx.xxx.xxx
-    [output] vpc id = vpc-m5e6qf260ypb2scdtoe4l
+    asg__id = asg-m5e9zaz0dz6081z5gdqv
+    dns__domain_name = backend-app.microservices.yyyyy.example.com
+    dns_record__ip = xxx.xxx.xxx.xxx
+    ecs1__eip_ecs1__ip_address = xxx.xxx.xxx.xxx
+    ecs1__id = i-m5ee6wmn63wpgafc5jv9
+    ecs1__image_id = centos_7_06_64_20G_alibase_20190218.vhd
+    ecs1__instance_type = ecs.n1.medium
+    ecs1__keypair_ecs1__key_name = ssh-microservices-backend-tf
+    eip_slb ip_address = xxx.xxx.xxx.xxx
+    vpc__id = vpc-m5e6qf260ypb2scdtoe4l
     ```
 
     After it finished, you can see the Auto Scaling Group you created in [Alibaba Cloud Auto Scaling web console](https://essnew.console.aliyun.com/#/ess/). Please note that the region of the web console is correct one. The Auto Scaling Group must be connected with the SLB we created before, and it must contain a new ECS which is created from your ECS image in the current VSwitch. You can access the SLB web console page from the Auto Scaling web console page.
