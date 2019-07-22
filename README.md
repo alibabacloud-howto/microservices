@@ -1,4 +1,4 @@
-# How-to create a microservice on Alibaba Cloud
+# How to create a microservice on Alibaba Cloud
 
 ## Summary
 
@@ -1077,7 +1077,7 @@ Let's create a VPC, a VSwitch, and an ECS by Terraform. We will do it step by st
 
     After it finished, you can see the VPC you created in [Alibaba Cloud VPC web console](https://vpc.console.aliyun.com/vpc/). Please note that the region of the web console is correct one.
 
-### Create a ECS
+### Create an ECS
 
 1. Update the Terraform script (ECS)
 
@@ -1203,7 +1203,7 @@ Let's create a VPC, a VSwitch, and an ECS by Terraform. We will do it step by st
     }
     ```
 
-    It describes we use a Security Group, a SSH key pair, a ECS, and an EIP. One security group rule allows http access and the other one allows SSH access. The ECS is configured with 2 cpu cores, 4GB memory, and CentOS7.
+    It describes we use a Security Group, a SSH key pair, an ECS, and an EIP. One security group rule allows http access and the other one allows SSH access. The ECS is configured with 2 cpu cores, 4GB memory, and CentOS7.
 
     Please note that we use Terraform [local-exec provisioner](https://www.terraform.io/docs/provisioners/local-exec.html) and [remote-exec provisioner](https://www.terraform.io/docs/provisioners/remote-exec.html). With provisioner, we can run own script after a resource is created. The local-exec provisioner is executed on the local machine, and the remote-exec provisioner is executed on the created resource with connection. This time, we use SSH connection with created SSH key pair.
 
@@ -2292,7 +2292,7 @@ Now, you completed to prepare a simple database API application which can connec
 
 In this step, we will deploy the database API application which we created in the previous step. This step is similar to [the step we did for the back-end web application ECS](##-Step-5---deploy-a-back-end-web-application-server). We will create ECS in the same VSwitch as the one we created for RDS.
 
-### Create a ECS for database API
+### Create an ECS for database API
 
 1. Change the working directory
 
@@ -2469,7 +2469,7 @@ In this step, we will deploy the database API application which we created in th
     }
     ```
 
-    It describes we use a Security Group, a SSH key pair, a ECS, and an EIP. Also, change the RDS whitelist.
+    It describes we use a Security Group, a SSH key pair, an ECS, and an EIP. Also, change the RDS whitelist.
 
 2. Create files used by Terraform provisioner
 
